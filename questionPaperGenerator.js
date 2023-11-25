@@ -6,12 +6,34 @@ class QuestionPaperGenerator {
     }
   
     generateQuestionPaper(totalMarks, difficultyDistribution) {
+          if(totalMarks<=0){
+            console.log("can't generate question paper");
+            return;
+        }
       const questionPaper = [];
   
       difficultyDistribution.forEach(({ difficulty, percentage ,marks}) => {
+
+if(percentage<0||percentage>100){
+    console.log("invalid input");
+    return;
+}
+if(marks<=0){
+    console.log("invalid input");
+    return;
+}
+
+      if(difficulty=="Easy"||difficulty=="Medium"||difficulty=="Hard"){
+
+      
         const count = Math.round(((percentage / 100) * totalMarks)/marks);
         const questions = this.getQuestionsByDifficulty(difficulty, count);
         questionPaper.push(...questions);
+      }
+           else{
+        console.log("invalid input");
+        return;
+      }
       });
   
       return questionPaper;
@@ -25,7 +47,7 @@ class QuestionPaperGenerator {
 
       if (filteredQuestions.length < count) {
         console.warn(`Warning: Not enough questions of difficulty ${difficulty}. Adjusting count.`);
-        count = filteredQuestions.length; 
+     return;
       }
   
 
